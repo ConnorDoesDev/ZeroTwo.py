@@ -15,5 +15,14 @@ class general(commands.Cog):
             )
             await ctx.message.reply(embed=embed)
 
+    @commands.command(help="get a link to the support server", aliases=["helpmeplease", "ineedsupportplox"])
+    async def support(self, ctx):
+        embed = discord.Embed(
+            author="ZeroTwo.py",
+            title="Support server",
+            description="You may join our [support server](https://dsc.gg/connor) :D"
+        )
+        await ctx.message.reply(embed=embed)
+
 def setup(client):
     client.add_cog(general(client))
