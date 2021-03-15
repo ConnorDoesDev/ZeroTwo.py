@@ -11,6 +11,8 @@ client = commands.Bot(
         owner_ids = DEVELOPER
 )
 
+# this is a github test woohoo
+
 client.remove_command('help')
 
 client.cmd_edits = {}
