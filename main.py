@@ -4,7 +4,7 @@ from config import *
 import os
 
 client = commands.Bot(
-    command_prefix = ["py "], 
+    command_prefix = ["py ", "bruh "], 
         case_insensitive = True, 
         intents = discord.Intents.all(),
         allowed_mentions = discord.AllowedMentions(everyone=False, roles=False),
