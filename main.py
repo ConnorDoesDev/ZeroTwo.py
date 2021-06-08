@@ -4,7 +4,7 @@ from config import *
 import os
 
 client = commands.Bot(
-    command_prefix = ["py ", "bruh ", "hi "], 
+    command_prefix = ["ztpy-", "<@817837195578048522> ", "<@!817837195578048522> "], 
         case_insensitive = True, 
         intents = discord.Intents.all(),
         allowed_mentions = discord.AllowedMentions(everyone=False, roles=False),
@@ -13,28 +13,54 @@ client = commands.Bot(
 
 client.remove_command('help')
 
-client.cmd_edits = {}
-
 class EditingContext(commands.Context):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    async def send(self, content=None, *, tts=False, embed=None, file=None, files=None, delete_after=None, nonce=None, allowed_mentions=discord.AllowedMentions.none()):
+    async def send(self, content=None, *, tts=False, embed=None, file=None, files=None, delete_after=None, nonce=None, allowed_mentions=discord.AllowedMentions(users=False, roles=False, everyone=False, replied_user=True)):
         if file or files:
             return await super().send(content=content, tts=tts, embed=embed, file=file, files=files, delete_after=delete_after, nonce=nonce, allowed_mentions=allowed_mentions)
         reply = None
         try:
-            reply = client.cmd_edits[self.message.id]
+            reply = self.bot.cmd_edits[self.message.id]
         except KeyError:
             pass
         if reply:
-            try:
-                reply.edit(content=content, embed=embed, delete_after=delete_after, allowed_mentions=allowed_mentions)
-            except:
-                return
-        msg = await super().send(content=content, tts=tts, embed=embed, file=file, files=files, delete_after=delete_after, nonce=nonce, allowed_mentions=allowed_mentions)
+            return await reply.edit(content=content, embed=embed, delete_after=delete_after, allowed_mentions=allowed_mentions)
+        reference = self.message.reference
+        if reference and isinstance(reference.resolved, discord.Message):
+            msg = await reference.resolved.reply(content=content, tts=tts, embed=embed, file=file, files=files, delete_after=delete_after, nonce=nonce, allowed_mentions=allowed_mentions)
+        else:
+            msg = await super().send(content=content, tts=tts, embed=embed, file=file, files=files, delete_after=delete_after, nonce=nonce, allowed_mentions=allowed_mentions)
         self.bot.cmd_edits[self.message.id] = msg
         return msg
+
+async def on_message(self, message):
+        if message.author.bot:
+            return
+        try:
+            ctx = await self.get_context(message, cls=EditingContext)
+            if message.guild:
+                if ctx.valid:
+                    await self.invoke(ctx)
+        except Exception as e:
+            print(e)
+            return
+
+async def on_message_edit(self, before, after):
+
+        if before.author.bot:
+            return
+
+        if after.content != before.content:
+            try:
+                ctx = await self.get_context(after, cls=EditingContext)
+                if after.guild:
+                    if ctx.valid:
+                        await self.invoke(ctx)
+            except discord.NotFound:
+                return
+
 
 for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
@@ -93,6 +119,8 @@ async def on_command_error(ctx, error):
         e = discord.Embed(title="⚠️ An error occured")
         e.description="```{}```".format(error)
 
+    cmd_edits = {}
+
 @client.command()
 @commands.is_owner()
 async def load(ctx, extension = None):
@@ -120,6 +148,18 @@ async def reload(ctx, extension = None):
     client.unload_extension(f'cogs.{extension}')
     client.load_extension(f'cogs.{extension}')
     await ctx.message.reply(f"Reloaded {extension}")
+
+@client.command()
+@commands.is_owner()
+async def meow(ctx, meowdat = None):
+    if meowdat == None:
+        await ctx.message.reply("mate you need to tell me who i should meow at smh")
+        return
+    embed = discord.Embed(
+    title="ZeroTwo.py",
+    description=f"You just meow'd at {meowdat}!"
+)
+    await ctx.message.reply(embed=embed)
 
 
 client.run(TOKEN)
