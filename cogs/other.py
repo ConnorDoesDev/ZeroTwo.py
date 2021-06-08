@@ -6,11 +6,11 @@ class other(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def partners(self, ctx):
+    async def dev(self, ctx):
             embed = discord.Embed(
-                author="Cube Club",
-                title="Cube Club",
-                description="cube club is our partner becaause coobs are pog"
+                author="Developer",
+                title="Developers",
+                description="Connor!#0800 made me ~~with a lot of fun because he totally isn't a JS fanboy~~"
             )
             await ctx.message.reply(embed=embed)
 

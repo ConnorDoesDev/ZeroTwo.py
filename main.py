@@ -76,7 +76,7 @@ async def on_ready():
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         ie = discord.Embed()
-        ie.add_field(name='error while processing', value='Please fill in all the required arguments.\nUse `exo info <command`> for usage.')
+        ie.add_field(name='error while processing', value='fill in all the required arguments.\nUse `ztpy-info <command`> for usage.')
         await ctx.send(embed=ie)
         e = discord.Embed()
         e.description = f"{ctx.message.author} had an error while using a command:\n`Required arguments were not specified.`"
@@ -85,7 +85,7 @@ async def on_command_error(ctx, error):
 
     if isinstance(error, commands.MissingPermissions):
         ie = discord.Embed()
-        ie.add_field(name='error while processing', value='You do not have the sufficient permissions.')
+        ie.add_field(name='error while processing', value='You do not have the right permissions.')
         await ctx.send(embed=ie)
         e = discord.Embed()
         e.description = f"{ctx.message.author} had an error while using a command:\n`User permissions are too low.`"
