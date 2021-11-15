@@ -104,7 +104,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         cdamount = '{:.2f}'.format(error.retry_after)
         ie = discord.Embed()
-        ie.description=f"This command is on cooldown for **{cdamount}** more seconds, please wait."
+        ie.description=f"this command is on cooldown, wait **{cdamount}** more seconds, please wait."
         await ctx.send(embed=ie, delete_after=5)
         e = discord.Embed()
         e.description=f"Cooldown (`{cdamount}s`) occured for {ctx.message.author} in {ctx.guild.name} (`{ctx.guild.id}`)."
@@ -125,7 +125,7 @@ async def on_command_error(ctx, error):
 @commands.is_owner()
 async def load(ctx, extension = None):
     if extension == None:
-        await ctx.message.reply("tell me what to load next time you idiot")
+        await ctx.message.reply("tell me what to load next time")
         return
     client.load_extension(f'cogs.{extension}')
     await ctx.message.reply(f"Loaded {extension}")
@@ -134,7 +134,7 @@ async def load(ctx, extension = None):
 @commands.is_owner()
 async def unload(ctx, extension = None):
     if extension == None:
-        await ctx.message.reply("tell me what to unload next time you idiot")
+        await ctx.message.reply("tell me what to unload next time")
         return
     client.unload_extension(f'cogs.{extension}')
     await ctx.message.reply(f"Unloaded {extension}")
@@ -143,7 +143,7 @@ async def unload(ctx, extension = None):
 @commands.is_owner()
 async def reload(ctx, extension = None):
     if extension == None:
-        await ctx.message.reply("tell me what to reload next time you idiot")
+        await ctx.message.reply("tell me what to reload next time ")
         return
     client.unload_extension(f'cogs.{extension}')
     client.load_extension(f'cogs.{extension}')
@@ -153,11 +153,11 @@ async def reload(ctx, extension = None):
 @commands.is_owner()
 async def meow(ctx, meowdat = None):
     if meowdat == None:
-        await ctx.message.reply("mate you need to tell me who i should meow at smh")
+        await ctx.message.reply("who should i meow at?")
         return
     embed = discord.Embed(
     title="ZeroTwo.py",
-    description=f"You just meow'd at {meowdat}!"
+    description=f"meow meow {meowdat}"
 )
     await ctx.message.reply(embed=embed)
 
